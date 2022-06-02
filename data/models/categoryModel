@@ -1,0 +1,41 @@
+const db = require("../db-config");
+
+module.exports = {
+  findCategory,
+  findCategoryById,
+  addCategory,
+  updateCategory,
+  deleteCategory,
+};
+
+function findCategory() {
+  return db("category");
+}
+
+function findCategoryById(id) {
+  return db("category").where({ id }).first();
+}
+
+function addCategory(newCategory) {
+  return db("category")
+    .insert(newCategory, "id")
+    .then(([id]) => {
+      return db("category").where({ id }).first();
+    });
+}
+
+function updateCategory(updatedCategory, id) {
+  return db("category")
+    .update(updatedCategory)
+    .where({ id })
+    .then((updated) => {
+      if (updated) {
+        return db("category").where({ id }).first();
+      } else {
+      }
+    });
+}
+
+function deleteCategory(id) {
+  return db("category").del().where({ id });
+}
